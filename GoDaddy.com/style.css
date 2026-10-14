@@ -87,7 +87,7 @@
             display: flex;
             align-items: center;
             background-color: #2b2b2b;
-            gap: 3rem;
+            gap: 7px;
 
             & .godaddy-f-logo {
                 display: inline-block;
@@ -629,7 +629,8 @@
                     font-weight: 600;
                     font-size: 1.8rem;
                     transition: 0.2s;
-
+                    flex-shrink: 0;
+                     
                     &:hover {
                         border-color: black;
                         scale: 1.04;
@@ -1694,7 +1695,15 @@ display: none;
                 }
 
                 & .filter-nav {
-                    & button {
+                    overflow-x: scroll;
+    justify-content: start;
+ 
+width: 100%;
+
+
+   
+  
+               & button {
                         font-size: 1.4rem;
                         padding: 10px 15px;
                     }
@@ -1747,12 +1756,28 @@ display: none;
 
         @media (max-width:624px) {
             .product-tabbed-section {
-
+                
                 & .card-grid {
                     grid-template-columns: 1fr;
-                    grid-template-rows: repeat(3, 25rem);
+                    grid-template-rows: repeat(3, 53cqw);
+  width: 100%;
+           & .card{
+            container-type: inline-size;
 
+            & .card-details{
 
+                & h2{
+                        font-size: 4cqw;
+                }
+                & p{
+font-size: 2.7cqw;
+                }
+                & button{
+font-size: 2.6cqw;
+    font-weight: 700;
+                }
+            }
+           }
                 }
             }
 
@@ -1785,6 +1810,28 @@ display: none;
 
                     }
                 }
+
+                & .product-card { 
+                        width: 100%;
+
+                    & .card-container{
+                        width: 100%;
+
+                    & .card{
+                        flex: 1;
+                        & h2{
+                            font-size: clamp(3.5cqw, 15px, 100px);
+                        }
+                        & p{
+                        container-type: inline-size;
+                       width: 100%;
+                       line-height: normal;
+                            font-size: clamp(1.3cqw, 12px, 100rem);
+                        }
+                        }
+
+                    }
+                }
             }
         }
 
@@ -1804,11 +1851,12 @@ display: none;
                             width: 31%;
 
                             & h2 {
-                                font-size: 26px;
+            font-size: clamp(3.2cqw, 18px, 100px);
                             }
 
                             & p {
-                                font-size: 16px;
+                            font-size: clamp(1.9cqw, 13px, 100rem);
+                            margin-top: 10px;
                             }
                         }
                     }
@@ -1854,7 +1902,7 @@ display: none;
             .template-section {
 
                 & .template-section-margin-auto {
-
+padding: 0;
                     & .heading-text {
                         & h2 {
                             font-size: clamp(5cqw, 28px, 90px);
@@ -2341,3 +2389,19 @@ padding: 20px;
             }
             
         }
+
+
+
+/* Scrollbar ki width ya height set karein */
+.filter-nav::-webkit-scrollbar {
+height: 3px;
+}
+.filter-nav::-webkit-scrollbar-thumb {
+height: 100%;
+background-color: rgba(80, 79, 79, 0.459);
+}
+
+/* Scrollbar ke dono kone (arrows) ko hide karein */
+.filter-nav::-webkit-scrollbar-button {
+    display: none;
+}
