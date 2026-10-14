@@ -706,7 +706,7 @@
                     gap: 10rem;
                     grid-column: 1/2;
                     grid-row: 1/3;
-                    background-image: url("/videos-and-imgs/img-in-hp-ptc-in-large.jpg");
+                    background-image: url("videos-and-imgs/img-in-hp-ptc-in-large.jpg");
                     background-size: cover;
                     background-position: top;
 
@@ -738,13 +738,13 @@
 
                 & .card-2 {
                     background-size: 100%;
-                    background-image: url("/videos-and-imgs/DotCo-Medium.jpg")
+                    background-image: url("videos-and-imgs/DotCo-Medium.jpg")
                 }
 
                 & .card-3 {
                     background-size: 100%;
 
-                    background-image: url("/videos-and-imgs/Domains-small.jpg")
+                    background-image: url("videos-and-imgs/Domains-small.jpg")
                 }
             }
         }
@@ -2103,22 +2103,24 @@ display: none;
             .rtb-card-section {
 
                 & .heading-discription-container {
-                    line-height: 80px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
+                      width: 100%;
+                      line-height: 40px;
+                      row-gap: 15px;
 
                     & h2 {
                         font-size: 3.5em;
-                        width: 80%;
+                        width: 95%;
                     }
 
                     & p {
                         font-size: 1.5rem;
                         margin-top: 0;
                         line-height: 20px;
-                        width: 85%;
+                        width: 100%;
                     }
                 }
 
@@ -2306,4 +2308,36 @@ padding: 20px;
    
                 }
             }
+        }
+
+        @media (max-width:790px) {
+
+            .domain-hero-section{
+                & .domain-promotion-content{
+  padding: 20px;
+
+& .domain-offer-details{
+                & h2{
+                        font-size: 18px;
+                    }
+                    & .popular-label{
+                        font-size: 1px;
+                    }
+                & .domain-offer-price{
+                    
+                    & p{
+                        font-size: 13px;
+                    }
+                    
+                    & .domain-offer-button{
+                        font-size: 12px;
+                        width: 190px;
+                        height: 45px;
+
+                    }
+                }
+            }
+                }
+            }
+            
         }
