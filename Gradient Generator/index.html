@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gradient Generator</title>
+
+    <style>
+      :root {
+        --card-bg: rgba(15, 23, 42, 0.36);
+        --card-border: rgba(255, 255, 255, 0.18);
+        --soft-white: rgba(255, 255, 255, 0.9);
+        --muted-white: rgba(255, 255, 255, 0.74);
+        --button-bg: rgba(255, 255, 255, 0.12);
+        --button-hover: rgba(255, 255, 255, 0.22);
+        --shadow: rgba(15, 23, 42, 0.25);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 10px;
+      }
+
+      body {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5d142, #ff4d4d, #6c5ce7);
+        color: #fff;
+        transition: background 0.45s ease;
+      }
+
+      .btn-property-container {
+        display: grid;
+        gap: 1.6rem;
+        width: min(460px, 92vw);
+        padding: 2.4rem 2rem;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 26px;
+        box-shadow: 0 26px 60px var(--shadow);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      .angle-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.2rem 0.2rem 0;
+      }
+
+      .angle-row label {
+        color: var(--soft-white);
+        font-size: 1.55rem;
+        font-weight: 600;
+        letter-spacing: 0.04rem;
+      }
+
+      .angle-value {
+        color: rgba(255, 255, 255, 0.92);
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+
+      .angle-indicator {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        min-width: 4.5rem;
+        justify-content: flex-end;
+      }
+
+      .angle-arrow {
+        display: inline-block;
+        color: rgba(255, 255, 255, 0.92);
+        font-size: 1.6rem;
+        line-height: 1;
+        transform: rotate(50deg);
+      }
+
+      .slider {
+        width: 100%;
+        height: 0.7rem;
+        accent-color: #f8fafc;
+        cursor: pointer;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .btn-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .generate-btn {
+        flex: 1;
+        padding: 1.2rem 1.3rem;
+        border: none;
+        outline: none;
+        background: var(--button-bg);
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 12px;
+        transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+      }
+
+      .generate-btn:hover {
+        transform: translateY(-1px);
+        background: var(--button-hover);
+      }
+
+      .generate-btn:active {
+        transform: translateY(0);
+      }
+
+      p {
+        color: var(--muted-white);
+        font-size: 1.7rem;
+        font-weight: 500;
+        text-align: center;
+        letter-spacing: 0.03rem;
+      }
+
+      .property-container {
+        background: rgba(15, 23, 42, 0.52);
+        color: #f8fafc;
+        padding: 1.8rem 1.6rem;
+        font-size: 1.5rem;
+        border-left: 4px solid rgba(255, 255, 255, 0.85);
+        border-radius: 14px;
+        min-height: 7rem;
+        display: flex;
+        align-items: center;
+        word-break: break-word;
+        line-height: 1.6;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      }
+
+      .property-container:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 26px rgba(15, 23, 42, 0.22);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="btn-property-container">
+      <div class="angle-row">
+        <label for="myRange">Gradient Angle</label>
+        <span class="angle-indicator">
+          <span class="angle-value" id="angleValue">50°</span>
+          <span class="angle-arrow" id="angleArrow" aria-hidden="true">↑</span>
+        </span>
+      </div>
+      <input type="range" min="0" max="360" value="50" class="slider" id="myRange" />
+
+      <div class="btn-container">
+        <button class="generate-btn" id="left-btn">Change left</button>
+        <button class="generate-btn" id="right-btn">Change right</button>
+      </div>
+
+      <p>Click below to copy it 👇</p>
+
+      <div class="property-container"></div>
+    </div>
+
+    <script>
+      let leftBtn = document.getElementById("left-btn");
+      let rightBtn = document.getElementById("right-btn");
+      let propertyContainer = document.querySelector(".property-container");
+      let slider = document.getElementById("myRange");
+      let angleValue = document.getElementById("angleValue");
+      let angleArrow = document.getElementById("angleArrow");
+
+      function randomNum() {
+        return Math.floor(Math.random() * 256);
+      }
+
+      let leftRandomColor1 = randomNum();
+      let leftRandomColor2 = randomNum();
+      let leftRandomColor3 = randomNum();
+      let rightRandomColor1 = randomNum();
+      let rightRandomColor2 = randomNum();
+      let rightRandomColor3 = randomNum();
+      let angle = `${slider.value}deg`;
+
+      function updateAngleText() {
+        angleValue.textContent = `${slider.value}°`;
+        angleArrow.style.transform = `rotate(${slider.value}deg)`;
+      }
+
+      let defProperty = `linear-gradient(${angle}, rgba(${leftRandomColor1}, ${leftRandomColor2}, ${leftRandomColor3}) , rgba(${rightRandomColor1}, ${rightRandomColor2}, ${rightRandomColor3}))`;
+      document.body.style.background = defProperty;
+      propertyContainer.textContent = `background: ${defProperty};`;
+      updateAngleText();
+
+      function generateRandomColor(ev) {
+        if (ev.id == "left-btn") {
+          leftRandomColor1 = randomNum();
+          leftRandomColor2 = randomNum();
+          leftRandomColor3 = randomNum();
+        } else if (ev.id == "right-btn") {
+          rightRandomColor1 = randomNum();
+          rightRandomColor2 = randomNum();
+          rightRandomColor3 = randomNum();
+        } else if (ev.id == "myRange") {
+          angle = `${slider.value}deg`;
+          updateAngleText();
+        }
+
+        let propertyValue = `linear-gradient(${angle}, rgba(${leftRandomColor1}, ${leftRandomColor2}, ${leftRandomColor3}) , rgba(${rightRandomColor1}, ${rightRandomColor2}, ${rightRandomColor3}))`;
+        propertyContainer.textContent = `background: ${propertyValue};`;
+        document.body.style.background = propertyValue;
+      }
+
+      slider.addEventListener("input", (e) => {
+        generateRandomColor(e.target);
+      });
+
+      leftBtn.addEventListener("click", (e) => {
+        generateRandomColor(e.target);
+      });
+
+      rightBtn.addEventListener("click", (e) => {
+        generateRandomColor(e.target);
+      });
+
+      propertyContainer.addEventListener("click", () => {
+        navigator.clipboard.writeText(propertyContainer.textContent);
+        alert("Copied");
+      });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+<!-- 
+  let leftRandomColor = "#33ccff";
+        let rightRandomColor = "#4d4d4d";
+
+        let defaultProperty = `linear-gradient(to right, ${leftRandomColor} , ${rightRandomColor})`;
+        document.body.style.background = defaultProperty;
+
+      function generateRandomColor(ev){
+        let leftColor = "#";
+        let rightColor = "#";
+        let hex="0123456789abcdef";
+        if (ev.id == "left-btn") {
+          
+          for (let i=0; i < 6; i++){
+            leftColor += hex[Math.floor(Math.random() * hex.length)]
+          }
+          leftRandomColor = leftColor;
+          console.log(leftRandomColor);
+        }
+        if (ev.id == "right-btn") {
+          
+          for (let i=0; i < 6; i++){
+            rightColor += hex[Math.floor(Math.random() * hex.length)]
+          }
+          rightRandomColor = rightColor;
+          console.log(rightRandomColor);
+        }
+
+        let propertyValue = `linear-gradient(to right, ${leftRandomColor} , ${rightRandomColor})`;
+        propertyContainer.textContent = `background: ${propertyValue};`;
+        document.body.style.background = propertyValue; 
+      } -->
